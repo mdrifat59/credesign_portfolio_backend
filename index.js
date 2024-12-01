@@ -11,6 +11,7 @@ mongoose.connect('mongodb+srv://mdrifatulislam59:ON86VIVvkh1oAjSF@cluster0.2ckl6
 app.use(cors())
 app.use(express.json())
 
+// Navbar route start
 app.post('/navbar', function (req, res) {
   const data = new Navbar(req.body)
   data.save()
@@ -28,6 +29,10 @@ app.put('/navbar/:id', function (req, res) {
   Navbar.findByIdAndUpdate(req.params.id, req.body).then(() => {
     res.send({ message: "Navbar updated" })
   })
-})
+}) 
+// Navbar route end
+// Banner route start
+
+// Banner route end
 
 app.listen(8000)
