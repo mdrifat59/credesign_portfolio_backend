@@ -4,6 +4,7 @@ var cors = require('cors')
 const mongoose = require('mongoose');
 const Navbar = require('./model/navbarModel')
 const Banner = require('./model/bannerModel')
+const About = require('./model/aboutModel')
 
 
 mongoose.connect('mongodb+srv://mdrifatulislam59:ON86VIVvkh1oAjSF@cluster0.2ckl6wm.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0')
@@ -52,5 +53,24 @@ app.put('/banner/:id', function (req, res) {
   })
 })
 // Banner route end
+// About route start
+app.post('/about', function (req, res) {
+  const data = new About(req.body)
+  data.save()
+  res.send("About created")
+  console.log(req);
+})
+
+app.get('/aboutitem', async function (req, res) {
+  const data = await About.findOne({})
+  res.send(data)
+})
+
+app.put("/about/:id", function (req, res) {
+  About.findByIdAndUpdate(req.params.id, req.body).then(() => {
+    res.send({ massage: "about update" })
+  })
+})
+// About route end
 
 app.listen(8000)
