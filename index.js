@@ -84,6 +84,11 @@ app.get('/serviceitem', async function (req, res) {
   const data = await Service.find({})
   res.send(data)
 })
+
+app.delete('/service/:id',async function(req,res){
+   const data = await Service.findByIdAndDelete(req.params.id)
+    res.send({massage:"delete succsses"})
+})
 // Service route end
 
 app.listen(8000)
