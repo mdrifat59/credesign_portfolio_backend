@@ -6,6 +6,7 @@ const Navbar = require('./model/navbarModel')
 const Banner = require('./model/bannerModel')
 const About = require('./model/aboutModel')
 const Service = require('./model/serviceModel')
+const Resume = require('./model/resumeModel')
 
 
 mongoose.connect('mongodb+srv://mdrifatulislam59:ON86VIVvkh1oAjSF@cluster0.2ckl6wm.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0')
@@ -96,5 +97,16 @@ app.put('/service/:id', function (req, res) {
 })
 
 // Service route end
+// Resume route start
+app.post('/resume', function (req,res){
+       const data = new Resume(req.body)
+       data.save()
+       res.send("resume created")
+})
+app.get('/resumeitem', async function (req,res){
+        const data = await Resume.findOne({})
+       res.send(data)
+})
+// Resume route end
 
 app.listen(8000)
