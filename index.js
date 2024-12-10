@@ -107,6 +107,12 @@ app.get('/resumeitem', async function (req,res){
         const data = await Resume.findOne({})
        res.send(data)
 })
+app.put('/resume/:id', function (req, res){
+    Resume.findByIdAndUpdate(req.params.id, req.body).then(()=>{
+      res.send({message:"update done"})
+    })
+    
+})
 // Resume route end
 
 app.listen(8000)
