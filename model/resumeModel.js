@@ -6,9 +6,7 @@ const resumeSchema = new Schema ({
     heading: String,
     showCircule: Boolean,
     
-    sofHeading: String,
-    sofTitle: String,
-    sofDes: String,
+   
     expHeading: String,
     expTitle: String,
     expDes: String,

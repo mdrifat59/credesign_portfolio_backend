@@ -8,6 +8,7 @@ const About = require('./model/aboutModel')
 const Service = require('./model/serviceModel')
 const Resume = require('./model/resumeModel')
 const Education = require('./model/educationModel')
+const SoftSkill = require('./model/softskilModel')
 
 
 mongoose.connect('mongodb+srv://mdrifatulislam59:ON86VIVvkh1oAjSF@cluster0.2ckl6wm.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0')
@@ -103,11 +104,11 @@ app.post('/resume', function (req, res) {
   const data = new Resume(req.body)
   data.save()
   res.send("resume created")
-}) 
+})
 app.get('/resumeitem', async function (req, res) {
   const data = await Resume.findOne({})
   res.send(data)
-}) 
+})
 app.put('/resume/:id', function (req, res) {
   Resume.findByIdAndUpdate(req.params.id, req.body).then(() => {
     res.send({ message: "update done" })
@@ -126,6 +127,21 @@ app.get('/resumeeducationitem', async function (req, res) {
 })
 app.put('/resumeeducation/:id', function (req, res) {
   Education.findByIdAndUpdate(req.params.id, req.body).then(() => {
+    res.send({ message: "update done" })
+  })
+})
+//  softskill
+app.post('/resumesoft', function (req, res) {
+  const data = new SoftSkill(req.body)
+  data.save()
+  res.send("resume created")
+})
+app.get('/resumesoftitem', async function (req, res) {
+  const data = await SoftSkill.find({})
+  res.send(data)
+})
+app.put('/resumesoft/:id', function (req, res) {
+  SoftSkill.findByIdAndUpdate(req.params.id, req.body).then(() => {
     res.send({ message: "update done" })
   })
 })
