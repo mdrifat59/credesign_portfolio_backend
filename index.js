@@ -9,6 +9,7 @@ const Service = require('./model/serviceModel')
 const Resume = require('./model/resumeModel')
 const Education = require('./model/educationModel')
 const SoftSkill = require('./model/softskilModel')
+const Experiance = require('./model/experianceModel')
 
 
 mongoose.connect('mongodb+srv://mdrifatulislam59:ON86VIVvkh1oAjSF@cluster0.2ckl6wm.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0')
@@ -142,6 +143,21 @@ app.get('/resumesoftitem', async function (req, res) {
 })
 app.put('/resumesoft/:id', function (req, res) {
   SoftSkill.findByIdAndUpdate(req.params.id, req.body).then(() => {
+    res.send({ message: "update done" })
+  })
+})
+//  expariance
+app.post('/resumeexperiance', function (req, res) {
+  const data = new Experiance(req.body)
+  data.save()
+  res.send("resume created")
+})
+app.get('/resumeexperianceitem', async function (req, res) {
+  const data = await Experiance.find({})
+  res.send(data)
+})
+app.put('/resumeexperiance/:id', function (req, res) {
+  Experiance.findByIdAndUpdate(req.params.id, req.body).then(() => {
     res.send({ message: "update done" })
   })
 })
