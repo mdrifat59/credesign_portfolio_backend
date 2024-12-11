@@ -7,6 +7,7 @@ const Banner = require('./model/bannerModel')
 const About = require('./model/aboutModel')
 const Service = require('./model/serviceModel')
 const Resume = require('./model/resumeModel')
+const Education = require('./model/educationModel')
 
 
 mongoose.connect('mongodb+srv://mdrifatulislam59:ON86VIVvkh1oAjSF@cluster0.2ckl6wm.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0')
@@ -98,20 +99,35 @@ app.put('/service/:id', function (req, res) {
 
 // Service route end
 // Resume route start
-app.post('/resume', function (req,res){
-       const data = new Resume(req.body)
-       data.save()
-       res.send("resume created")
+app.post('/resume', function (req, res) {
+  const data = new Resume(req.body)
+  data.save()
+  res.send("resume created")
+}) 
+app.get('/resumeitem', async function (req, res) {
+  const data = await Resume.findOne({})
+  res.send(data)
+}) 
+app.put('/resume/:id', function (req, res) {
+  Resume.findByIdAndUpdate(req.params.id, req.body).then(() => {
+    res.send({ message: "update done" })
+  })
 })
-app.get('/resumeitem', async function (req,res){
-        const data = await Resume.findOne({})
-       res.send(data)
+
+//  education
+app.post('/resumeeducation', function (req, res) {
+  const data = new Education(req.body)
+  data.save()
+  res.send("resume created")
 })
-app.put('/resume/:id', function (req, res){
-    Resume.findByIdAndUpdate(req.params.id, req.body).then(()=>{
-      res.send({message:"update done"})
-    })
-    
+app.get('/resumeeducationitem', async function (req, res) {
+  const data = await Education.find({})
+  res.send(data)
+})
+app.put('/resumeeducation/:id', function (req, res) {
+  Education.findByIdAndUpdate(req.params.id, req.body).then(() => {
+    res.send({ message: "update done" })
+  })
 })
 // Resume route end
 
