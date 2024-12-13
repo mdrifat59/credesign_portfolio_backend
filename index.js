@@ -126,6 +126,10 @@ app.get('/resumeeducationitem', async function (req, res) {
   const data = await Education.find({})
   res.send(data)
 })
+app.delete('/reusmeeducation/:id', async function (req, res) {
+  const data = await Education.findByIdAndDelete(req.params.id)
+  res.send({ massage: "delete succsses" })
+})
 app.put('/resumeeducation/:id', function (req, res) {
   Education.findByIdAndUpdate(req.params.id, req.body).then(() => {
     res.send({ message: "update done" })
