@@ -145,6 +145,10 @@ app.get('/resumesoftitem', async function (req, res) {
   const data = await SoftSkill.find({})
   res.send(data)
 })
+app.delete('/reusmesoft/:id', async function (req, res) {
+  const data = await SoftSkill.findByIdAndDelete(req.params.id)
+  res.send({ massage: "delete succsses" })
+})
 app.put('/resumesoft/:id', function (req, res) {
   SoftSkill.findByIdAndUpdate(req.params.id, req.body).then(() => {
     res.send({ message: "update done" })
