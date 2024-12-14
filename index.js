@@ -10,13 +10,28 @@ const Resume = require('./model/resumeModel')
 const Education = require('./model/educationModel')
 const SoftSkill = require('./model/softskilModel')
 const Experiance = require('./model/experianceModel')
+const multer = require('multer')
 
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads')
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null,uniqueSuffix +"-"+ file.originalname)
+  }
+})
+
+const upload = multer({ storage: storage })
 
 mongoose.connect('mongodb+srv://mdrifatulislam59:ON86VIVvkh1oAjSF@cluster0.2ckl6wm.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0')
   .then(() => console.log('Connected!'));
 
 app.use(cors())
 app.use(express.json())
+app.use('/uploads', express.static('./uploads'))
 
 // Navbar route start
 app.post('/navbar', function (req, res) {
@@ -39,8 +54,8 @@ app.put('/navbar/:id', function (req, res) {
 })
 // Navbar route end
 // Banner route start
-app.post('/banner', function (req, res) {
-  const data = new Banner(req.body)
+app.post('/banner',upload.single("image") ,function (req, res) {
+  const data = new Banner({...req.body, image:req.file.path})
   data.save()
   res.send("banner created")
   console.log(req);
@@ -52,8 +67,8 @@ app.get('/banneritem', async function (req, res) {
   res.send(data)
 })
 
-app.put('/banner/:id', function (req, res) {
-  Banner.findByIdAndUpdate(req.params.id, req.body).then(() => {
+app.put('/banner/:id',upload.single("image"), function (req, res) {
+  Banner.findByIdAndUpdate(req.params.id, {...req.body, image:req.file.path}).then(() => {
     res.send({ massage: "banner update" })
   })
 })
