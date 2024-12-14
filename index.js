@@ -164,6 +164,10 @@ app.get('/resumeexperianceitem', async function (req, res) {
   const data = await Experiance.find({})
   res.send(data)
 })
+app.delete('/resumeexperiance/:id', async function (req, res) {
+  const data = await Experiance.findByIdAndDelete(req.params.id)
+  res.send({ massage: "delete succsses" })
+})
 app.put('/resumeexperiance/:id', function (req, res) {
   Experiance.findByIdAndUpdate(req.params.id, req.body).then(() => {
     res.send({ message: "update done" })
