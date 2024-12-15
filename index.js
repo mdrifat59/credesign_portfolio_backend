@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    cb(null,uniqueSuffix +"-"+ file.originalname)
+    cb(null, uniqueSuffix + "-" + file.originalname)
   }
 })
 
@@ -54,8 +54,8 @@ app.put('/navbar/:id', function (req, res) {
 })
 // Navbar route end
 // Banner route start
-app.post('/banner',upload.single("image") ,function (req, res) {
-  const data = new Banner({...req.body, image:req.file.path})
+app.post('/banner', upload.single("image"), function (req, res) {
+  const data = new Banner({ ...req.body, image: req.file.path })
   data.save()
   res.send("banner created")
   console.log(req);
@@ -67,15 +67,15 @@ app.get('/banneritem', async function (req, res) {
   res.send(data)
 })
 
-app.put('/banner/:id',upload.single("image"), function (req, res) {
-  Banner.findByIdAndUpdate(req.params.id, {...req.body, image:req.file.path}).then(() => {
+app.put('/banner/:id', upload.single("image"), function (req, res) {
+  Banner.findByIdAndUpdate(req.params.id, { ...req.body, image: req.file.path }).then(() => {
     res.send({ massage: "banner update" })
   })
 })
 // Banner route end
 // About route start
-app.post('/about', function (req, res) {
-  const data = new About(req.body)
+app.post('/about', upload.single("image"), function (req, res) {
+  const data = new About({ ...req.body, image: req.file.path })
   data.save()
   res.send("About created")
   console.log(req);
@@ -86,8 +86,8 @@ app.get('/aboutitem', async function (req, res) {
   res.send(data)
 })
 
-app.put("/about/:id", function (req, res) {
-  About.findByIdAndUpdate(req.params.id, req.body).then(() => {
+app.put("/about/:id", upload.single("image"), function (req, res) {
+  About.findByIdAndUpdate(req.params.id, { ...req.body, image: req.file.path }).then(() => {
     res.send({ massage: "about update" })
   })
 })
