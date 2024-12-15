@@ -93,8 +93,8 @@ app.put("/about/:id", upload.single("image"), function (req, res) {
 })
 // About route end
 // Service route start
-app.post('/service', function (req, res) {
-  const data = new Service(req.body)
+app.post('/service',upload.single("image"), function (req, res) {
+  const data = new Service({...req.body, image: req.file.path})
   data.save()
   res.send("service created")
 })
@@ -108,8 +108,8 @@ app.delete('/service/:id', async function (req, res) {
   const data = await Service.findByIdAndDelete(req.params.id)
   res.send({ massage: "delete succsses" })
 })
-app.put('/service/:id', function (req, res) {
-  Service.findByIdAndUpdate(req.params.id, req.body).then(() => {
+app.put('/service/:id',upload.single("image"), function (req, res) {
+  Service.findByIdAndUpdate(req.params.id,{...req.body, image:req.file.path}).then(() => {
     res.send({ message: "Update success" })
   })
 })
