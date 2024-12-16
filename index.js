@@ -10,6 +10,7 @@ const Resume = require('./model/resumeModel')
 const Education = require('./model/educationModel')
 const SoftSkill = require('./model/softskilModel')
 const Experiance = require('./model/experianceModel')
+const Portfolio = require('./model/portfolioModel')
 const multer = require('multer')
 
 
@@ -116,7 +117,7 @@ app.put('/service/:id',upload.single("image"), function (req, res) {
 
 // Service route end
 // Resume route start
-app.post('/resume', function (req, res) {
+app.post('/resume',upload.single("image"), function (req, res) {
   const data = new Resume(req.body)
   data.save()
   res.send("resume created")
@@ -189,5 +190,16 @@ app.put('/resumeexperiance/:id', function (req, res) {
   })
 })
 // Resume route end
+// portfolio route start
+app.post('/portfolio',upload.single("image"), function(req,res){
+  const data = new Portfolio({...req.body, image:req.file.path})
+  data.save()
+  res.send("portfolio created")
+})
+app.get('/portfolioitem', async function(req,res){
+       const data = await Portfolio.find({})
+       res.send(data)
+})
+// portfolio route end
 
 app.listen(8000)
