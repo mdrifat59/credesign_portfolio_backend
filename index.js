@@ -94,8 +94,8 @@ app.put("/about/:id", upload.single("image"), function (req, res) {
 })
 // About route end
 // Service route start
-app.post('/service',upload.single("image"), function (req, res) {
-  const data = new Service({...req.body, image: req.file.path})
+app.post('/service', upload.single("image"), function (req, res) {
+  const data = new Service({ ...req.body, image: req.file.path })
   data.save()
   res.send("service created")
 })
@@ -109,15 +109,15 @@ app.delete('/service/:id', async function (req, res) {
   const data = await Service.findByIdAndDelete(req.params.id)
   res.send({ massage: "delete succsses" })
 })
-app.put('/service/:id',upload.single("image"), function (req, res) {
-  Service.findByIdAndUpdate(req.params.id,{...req.body, image:req.file.path}).then(() => {
+app.put('/service/:id', upload.single("image"), function (req, res) {
+  Service.findByIdAndUpdate(req.params.id, { ...req.body, image: req.file.path }).then(() => {
     res.send({ message: "Update success" })
   })
 })
 
 // Service route end
 // Resume route start
-app.post('/resume',upload.single("image"), function (req, res) {
+app.post('/resume', upload.single("image"), function (req, res) {
   const data = new Resume(req.body)
   data.save()
   res.send("resume created")
@@ -191,14 +191,19 @@ app.put('/resumeexperiance/:id', function (req, res) {
 })
 // Resume route end
 // portfolio route start
-app.post('/portfolio',upload.single("image"), function(req,res){
-  const data = new Portfolio({...req.body, image:req.file.path})
+app.post('/portfolio', upload.single("image"), function (req, res) {
+  const data = new Portfolio({ ...req.body, image: req.file.path })
   data.save()
   res.send("portfolio created")
 })
-app.get('/portfolioitem', async function(req,res){
-       const data = await Portfolio.find({})
-       res.send(data)
+app.get('/portfolioitem', async function (req, res) {
+  const data = await Portfolio.find({})
+  res.send(data)
+})
+app.delete('/portfolio/:id', async function (req, res) {
+  const data = await Portfolio.findByIdAndDelete(req.params.id).then(() => {
+    res.send({ massage: "delete compelete" })
+  })
 })
 // portfolio route end
 
