@@ -11,6 +11,7 @@ const Education = require('./model/educationModel')
 const SoftSkill = require('./model/softskilModel')
 const Experiance = require('./model/experianceModel')
 const Portfolio = require('./model/portfolioModel')
+const Testimonial = require('./model/testimonialModel')
 const multer = require('multer')
 
 
@@ -206,5 +207,28 @@ app.delete('/portfolio/:id', async function (req, res) {
   })
 })
 // portfolio route end
+// Testimonial route start
+app.post('/testimonial', upload.single("image"), function (req,res){
+   const data = new Testimonial({...req.body, image:req.file.path})
+  res.send("testimonial is done")
+   data.save()
+})
+app.get('/testimonialitem', async function (req,res){
+   const data = await Testimonial.find({}) 
+   res.send(data)
+})
+app.delete('/testimonial/:id',async function (req,res){
+  const data = await Testimonial.findByIdAndDelete(req.params.id)
+    res.send("Delete Item")
+
+})
+app.put('/testimonial/:id', upload.single("image"), function (req,res){
+   Testimonial.findByIdAndUpdate(req.params.id, {...req.body,image:req.file.path}).then(()=>{
+     res.send({massage:"update done"})
+})
+    
+})
+
+// Testimonial route end
 
 app.listen(8000)
