@@ -15,6 +15,7 @@ const Testimonial = require('./model/testimonialModel')
 const Partner = require('./model/partnerModel')
 const Blog = require('./model/blogModel')
 const multer = require('multer')
+const nodemailer = require("nodemailer");
 
 
 
@@ -269,5 +270,34 @@ app.put('/blog/:id', upload.single("image"), function (req, res) {
 
 })
 // Blog route end
+// contact route start
+app.post('/email', async function (req, res) {
+  console.log(req.body);
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    secure: false, // true for port 465, false for other ports
+    auth: {
+      user: "mdrifatulislam59@gmail.com",
+      pass: "smty aldr xpum kcuy",
+    },
+  });
+
+  const info = await transporter.sendMail({
+    from: req.body.email, // sender address
+    to: "mdrifatulislam59@gamil.com", // list of receivers
+    subject: req.body.subject, // Subject line 
+    html: `<b>Name:</b>${req.body.name}</br>
+    <b>Email:</b>${req.body.email}</br>
+    <b>Phone:</b>${req.body.phone}</br>
+    <b>Message:</b>${req.body.massage}
+    
+    `, // html body
+  });
+
+  console.log("Message sent: %s", info.messageId);
+  res.send({ message: "Email send" })
+
+})
+// contact route end
 
 app.listen(8000)
