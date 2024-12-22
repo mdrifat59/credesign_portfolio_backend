@@ -13,6 +13,7 @@ const Experiance = require('./model/experianceModel')
 const Portfolio = require('./model/portfolioModel')
 const Testimonial = require('./model/testimonialModel')
 const Partner = require('./model/partnerModel')
+const Blog = require('./model/blogModel')
 const multer = require('multer')
 
 
@@ -246,5 +247,27 @@ app.delete('/partner/:id', async function (req, res) {
   })
 })
 // partner route end
+// Blog route start
+app.post('/blog', upload.single("image"), function (req, res) {
+  const data = new Blog({ ...req.body, image: req.file.path })
+  res.send("Blog is done")
+  data.save()
+})
+app.get('/blogitem', async function (req, res) {
+  const data = await Blog.find({})
+  res.send(data)
+})
+app.delete('/blog/:id', async function (req, res) {
+  const data = await Blog.findByIdAndDelete(req.params.id)
+  res.send("Delete Item")
+
+})
+app.put('/blog/:id', upload.single("image"), function (req, res) {
+  Blog.findByIdAndUpdate(req.params.id, { ...req.body, image: req.file.path }).then(() => {
+    res.send({ massage: "update done" })
+  })
+
+})
+// Blog route end
 
 app.listen(8000)
