@@ -12,6 +12,7 @@ const SoftSkill = require('./model/softskilModel')
 const Experiance = require('./model/experianceModel')
 const Portfolio = require('./model/portfolioModel')
 const Testimonial = require('./model/testimonialModel')
+const Partner = require('./model/partnerModel')
 const multer = require('multer')
 
 
@@ -208,27 +209,42 @@ app.delete('/portfolio/:id', async function (req, res) {
 })
 // portfolio route end
 // Testimonial route start
-app.post('/testimonial', upload.single("image"), function (req,res){
-   const data = new Testimonial({...req.body, image:req.file.path})
+app.post('/testimonial', upload.single("image"), function (req, res) {
+  const data = new Testimonial({ ...req.body, image: req.file.path })
   res.send("testimonial is done")
-   data.save()
+  data.save()
 })
-app.get('/testimonialitem', async function (req,res){
-   const data = await Testimonial.find({}) 
-   res.send(data)
+app.get('/testimonialitem', async function (req, res) {
+  const data = await Testimonial.find({})
+  res.send(data)
 })
-app.delete('/testimonial/:id',async function (req,res){
+app.delete('/testimonial/:id', async function (req, res) {
   const data = await Testimonial.findByIdAndDelete(req.params.id)
-    res.send("Delete Item")
+  res.send("Delete Item")
 
 })
-app.put('/testimonial/:id', upload.single("image"), function (req,res){
-   Testimonial.findByIdAndUpdate(req.params.id, {...req.body,image:req.file.path}).then(()=>{
-     res.send({massage:"update done"})
-})
-    
-})
+app.put('/testimonial/:id', upload.single("image"), function (req, res) {
+  Testimonial.findByIdAndUpdate(req.params.id, { ...req.body, image: req.file.path }).then(() => {
+    res.send({ massage: "update done" })
+  })
 
+})
 // Testimonial route end
+// partner route start
+app.post('/partner', upload.single("image"), function (req, res) {
+  const data = new Partner({ ...req.body, image: req.file.path })
+  data.save()
+  res.send("partner created")
+})
+app.get('/partneritem', async function (req, res) {
+  const data = await Partner.find({})
+  res.send(data)
+})
+app.delete('/partner/:id', async function (req, res) {
+  const data = await Partner.findByIdAndDelete(req.params.id).then(() => {
+    res.send({ massage: "delete compelete" })
+  })
+})
+// partner route end
 
 app.listen(8000)

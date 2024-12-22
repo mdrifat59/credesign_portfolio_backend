@@ -1,10 +1,7 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 
-const portfolioSchema = new Schema({
-    // title: String,
-    // heading: String,
-    // showCircule: Boolean,
+const portfolioSchema = new Schema({ 
     image:String,
 })
 
