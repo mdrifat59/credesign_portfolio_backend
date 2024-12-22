@@ -14,6 +14,7 @@ const Portfolio = require('./model/portfolioModel')
 const Testimonial = require('./model/testimonialModel')
 const Partner = require('./model/partnerModel')
 const Blog = require('./model/blogModel')
+const Contact = require('./model/contactModel')
 const multer = require('multer')
 const nodemailer = require("nodemailer");
 
@@ -297,6 +298,20 @@ app.post('/email', async function (req, res) {
   console.log("Message sent: %s", info.messageId);
   res.send({ message: "Email send" })
 
+})
+app.post('/contact', function (req, res) {
+  const data = new Contact(req.body)
+  data.save()
+  res.send("contact created")
+})
+app.get('/contactitem', async function (req, res) {
+  const data = await Contact.findOne({})
+  res.send(data)
+})
+app.put('/contact/:id', function (req, res) {
+  Contact.findByIdAndUpdate(req.params.id, req.body).then(() => {
+    res.send("contact created")
+  })
 })
 // contact route end
 
