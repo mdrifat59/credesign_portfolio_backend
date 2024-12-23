@@ -15,6 +15,7 @@ const Testimonial = require('./model/testimonialModel')
 const Partner = require('./model/partnerModel')
 const Blog = require('./model/blogModel')
 const Contact = require('./model/contactModel')
+const Footer = require('./model/footerModel')
 const multer = require('multer')
 const nodemailer = require("nodemailer");
 
@@ -314,5 +315,21 @@ app.put('/contact/:id', function (req, res) {
   })
 })
 // contact route end
+// footer route start
+app.post('/footer', function (req, res) {
+  const data = new Footer(req.body)
+  data.save()
+  res.send("Footer created")
+})
+app.get('/footeritem', async function (req, res) {
+  const data = await Footer.findOne({})
+  res.send(data)
+})
+app.put('/footer/:id', function (req, res) {
+  Footer.findByIdAndUpdate(req.params.id, req.body).then(() => {
+    res.send({ massage: 'Update done' })
+  })
+})
+// footer route end
 
 app.listen(8000)
